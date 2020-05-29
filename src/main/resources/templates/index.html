@@ -31,10 +31,10 @@
     </style>
 </head>
 <body th:style="'background: url(/img/photo.jpeg) no-repeat center center fixed;'">
-<h1>Welcome to photo taker page</h1>
+<h1>Welcome to screenshot web page taker</h1>
 <form action="#" method="post" th:action="@{/}" th:object="${pageModel}">
     <textarea th:field="*{page}" rows="15" class="notes"
-              placeholder="Put your page here, if you want add a few ones press enter in order put it in a new line "></textarea>
+              placeholder="Put your web page here, if you want add more than one page keep adding them pressing enter at the end to mark it as a separate one"></textarea>
     <div class="notes">
         <button type="submit" class="btn btn-primary">Submit</button>
         <button type="reset" class="btn btn-secondary">Reset</button>
