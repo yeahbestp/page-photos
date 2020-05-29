@@ -21,9 +21,8 @@
             opacity: 0.6;
         }
 
-        p.notes {
+        div.notes {
             margin-left: 20px;
-            color: aliceblue;
         }
     </style>
 </head>
@@ -31,7 +30,7 @@
 <h1 align="center">Welcome to photo taker page</h1>
 <form action="#" method="post" th:action="@{/}" th:object="${pageModel}">
     <textarea th:field="*{page}" rows="15" class="notes"
-              placeholder="Put your page here, if you want add a few ones press enter in order put it in a new line"></textarea>
+              placeholder="Put your page here, if you want add a few ones press enter in order put it in a new line "></textarea>
     <div class="notes">
         <button type="submit" class="btn btn-primary">Submit</button>
         <button type="reset" class="btn btn-secondary">Reset</button>
