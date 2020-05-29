@@ -6,6 +6,10 @@
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
     <style>
 
+        h1 {
+            text-align: center;
+            color: #696969;
+        }
         textarea.notes {
             width: 95%;
             height: 40em;
@@ -27,7 +31,7 @@
     </style>
 </head>
 <body th:style="'background: url(/img/photo.jpeg) no-repeat center center fixed;'">
-<h1 align="center">Welcome to photo taker page</h1>
+<h1>Welcome to photo taker page</h1>
 <form action="#" method="post" th:action="@{/}" th:object="${pageModel}">
     <textarea th:field="*{page}" rows="15" class="notes"
               placeholder="Put your page here, if you want add a few ones press enter in order put it in a new line "></textarea>
@@ -36,5 +40,19 @@
         <button type="reset" class="btn btn-secondary">Reset</button>
     </div>
 </form>
+<!--Big blue-->
+<div class="preloader-wrapper big active crazy">
+    <div class="spinner-layer spinner-blue-only">
+        <div class="circle-clipper left">
+            <div class="circle"></div>
+        </div>
+        <div class="gap-patch">
+            <div class="circle"></div>
+        </div>
+        <div class="circle-clipper right">
+            <div class="circle"></div>
+        </div>
+    </div>
+</div>
 </body>
 </html>
