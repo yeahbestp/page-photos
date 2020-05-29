@@ -21,6 +21,9 @@ public class AppConfig {
     @Value("${photo.path}")
     private String path;
 
+    @Value("${cron.time}")
+    private int timeInMinutes;
+
     @Bean
     public ChromeOptions chromeOptions(){
         log.debug("loading chrome driver options");
@@ -39,6 +42,11 @@ public class AppConfig {
     @Bean
     public String photoPath() {
         return path;
+    }
+
+    @Bean
+    public int getTimeInMinutes(){
+        return timeInMinutes;
     }
 
 }

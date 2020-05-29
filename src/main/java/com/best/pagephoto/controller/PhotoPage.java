@@ -2,6 +2,7 @@ package com.best.pagephoto.controller;
 
 import com.best.pagephoto.model.PageModel;
 import com.best.pagephoto.service.ArchiveService;
+import com.best.pagephoto.service.Cleaner;
 import com.best.pagephoto.service.PhotoService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.core.io.ByteArrayResource;
@@ -41,26 +42,25 @@ public class PhotoPage {
     public ResponseEntity<Resource> getPhotos(@ModelAttribute PageModel page) {
         ByteArrayResource resource;
         var pages = getPages(page.getPage());
-        var path = photoService.getStoragePath().toString() + ".zip";
+        var path = Path.of(photoService.getStoragePath().toString() + ".zip");
         pages.forEach(photoService::createScreenshot);
         archiveService.archive(photoService.getStoragePath());
 
         try {
-            resource = new ByteArrayResource(Files.readAllBytes(Path.of(path)));
+            resource = new ByteArrayResource(Files.readAllBytes(path));
         } catch (IOException e) {
             throw new IllegalArgumentException("Reading path bytes issue");
         }
-
-        HttpHeaders header = setHeader(path);
+        HttpHeaders header = setHeader(path.getFileName());
 
         return ResponseEntity.ok()
                 .headers(header)
-                .contentLength(Path.of(path).toFile().length())
+                .contentLength(path.toFile().length())
                 .contentType(MediaType.parseMediaType("application/octet-stream"))
                 .body(resource);
     }
 
-    private HttpHeaders setHeader(String path) {
+    private HttpHeaders setHeader(Path path) {
         var header = new HttpHeaders();
         header.add(HttpHeaders.CONTENT_DISPOSITION,
                 "attachment; filename=" + path);
