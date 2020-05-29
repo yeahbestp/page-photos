@@ -72,7 +72,7 @@ public class PhotoPage {
 
     private List<String> getPages(String content) {
         Predicate<String> isEmpty = String::isEmpty;
-        return Pattern.compile(",")
+        return Pattern.compile("\n")
                 .splitAsStream(content)
                 .map(String::trim)
                 .filter(isEmpty.negate())

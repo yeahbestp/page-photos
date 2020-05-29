@@ -4,14 +4,38 @@
     <meta charset="UTF-8">
     <title>Page photos</title>
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
+    <style>
+
+        textarea.notes {
+            width: 95%;
+            height: 40em;
+            line-height: 31px;
+            background-image: -webkit-linear-gradient(left, white 0, transparent 0),
+            -webkit-linear-gradient(right, white 0, transparent 0),
+            -webkit-linear-gradient(white 30px, #ccc 30px, #ccc 31px, white 31px);
+            background-repeat: repeat-y;
+            background-size: 100% 100%, 100% 100%, 100% 31px;
+            background-attachment: local;
+            border-color: #ced4da;
+            margin: 20px;
+            opacity: 0.6;
+        }
+
+        p.notes {
+            margin-left: 20px;
+            color: aliceblue;
+        }
+    </style>
 </head>
-<body>
-<p>Put pages separated by commas</p>
+<body th:style="'background: url(/img/photo.jpeg) no-repeat center center fixed;'">
+<h1 align="center">Welcome to photo taker page</h1>
 <form action="#" method="post" th:action="@{/}" th:object="${pageModel}">
-<div class="form-group">
-        <textarea th:field="*{page}" class="form-control" rows="10" id="comment"></textarea>
-</div>
-    <button type="submit" class="btn btn-primary">Submit</button>
+    <textarea th:field="*{page}" rows="15" class="notes"
+              placeholder="Put your page here, if you want add a few ones press enter in order put it in a new line"></textarea>
+    <div class="notes">
+        <button type="submit" class="btn btn-primary">Submit</button>
+        <button type="reset" class="btn btn-secondary">Reset</button>
+    </div>
 </form>
 </body>
 </html>
