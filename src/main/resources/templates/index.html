@@ -1,58 +1,76 @@
 <!DOCTYPE html>
-<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<html lang="en" xmlns:th="http://www.thymeleaf.org" xmlns="http://www.w3.org/1999/html">
+
 <head>
     <meta charset="UTF-8">
     <title>Page photos</title>
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
-    <style>
 
-        h1 {
-            text-align: center;
-            color: #696969;
-        }
-        textarea.notes {
-            width: 95%;
-            height: 40em;
-            line-height: 31px;
-            background-image: -webkit-linear-gradient(left, white 0, transparent 0),
-            -webkit-linear-gradient(right, white 0, transparent 0),
-            -webkit-linear-gradient(white 30px, #ccc 30px, #ccc 31px, white 31px);
-            background-repeat: repeat-y;
-            background-size: 100% 100%, 100% 100%, 100% 31px;
-            background-attachment: local;
-            border-color: #ced4da;
-            margin: 20px;
-            opacity: 0.6;
-        }
-
-        div.notes {
-            margin-left: 20px;
-        }
-    </style>
 </head>
+
 <body th:style="'background: url(/img/photo.jpeg) no-repeat center center fixed;'">
-<h1>Welcome to screenshot web page taker</h1>
 <form action="#" method="post" th:action="@{/}" th:object="${pageModel}">
-    <textarea th:field="*{page}" rows="15" class="notes"
-              placeholder="Put your web page here, if you want add more than one page keep adding them pressing enter at the end to mark it as a separate one"></textarea>
-    <div class="notes">
-        <button type="submit" class="btn btn-primary">Submit</button>
-        <button type="reset" class="btn btn-secondary">Reset</button>
-    </div>
-</form>
-<!--Big blue-->
-<div class="preloader-wrapper big active crazy">
-    <div class="spinner-layer spinner-blue-only">
-        <div class="circle-clipper left">
-            <div class="circle"></div>
+<div class="container">
+    <div class="row justify-center">
+        <div class="col-12">
+                <h1>Welcome to screenshot web page taker</h1>
+            <div class="input-group mb-3">
+                <input id="userpage" type="text" class="form-control" placeholder="Add URL..." aria-label="Add an item" aria-describedby="basic-addon2">
+                <div class="input-group-append">
+                    <button class="btn btn-outline-info" id="page" type="button">Add</button>
+                    <button class="btn btn-secondary" id="remove" type="button">Remove</button>
+                </div>
+            </div>
+
         </div>
-        <div class="gap-patch">
-            <div class="circle"></div>
+        <div class="col-12">
+            <ul class="list-group" id="added-pages">
+            </ul>
         </div>
-        <div class="circle-clipper right">
-            <div class="circle"></div>
+
+        <div class="col-12">
+            <button type="submit" class="btn btn-primary">Submit</button>
         </div>
-    </div>
+        <form action="#" method="post" th:action="@{/}" th:object="${pageModel}">
+    <input th:field="*{page}" class="notes" id="notes" hidden/>
+        </form>
 </div>
+</div>
+</form>
+
+
+<script th:inline="javascript" type="text/javascript">
+    var add = document.getElementById("page");
+    var remove = document.getElementById("remove");
+    var input = document.getElementById("userpage");
+    var ul = document.querySelector("ul");
+    var filedText = document.getElementById('notes');
+
+    add.addEventListener("click", function() {
+        var li = document.createElement("li");
+        // Add Bootstrap class to the list element
+        li.classList.add("list-group-item");
+        li.appendChild(document.createTextNode(input.value));
+        ul.appendChild(li);
+
+        // Add text to input for thymeleaf read
+        filedText.value = filedText.value  + input.value + ';';
+
+        // Clear your input
+        input.value = "";
+    });
+
+    remove.addEventListener("click", function () {
+        var elements = document.getElementById('added-pages');
+        elements.removeChild(elements.lastElementChild);
+
+        // Remove from input for file read
+        var inputArray = filedText.value.split(";");
+        var pattern = inputArray[inputArray.length - 1] + ";" ;
+        var actualInput = filedText.value;
+        filedText.value = actualInput.replace(pattern, "");
+    })
+</script>
 </body>
+
 </html>
