@@ -1,18 +1,14 @@
 package com.best.pagephoto.service;
 
 import lombok.extern.slf4j.Slf4j;
-import org.apache.commons.compress.archivers.ArchiveEntry;
-import org.apache.commons.compress.archivers.ArchiveOutputStream;
 import org.apache.commons.compress.archivers.zip.ZipArchiveOutputStream;
 import org.apache.commons.compress.utils.IOUtils;
 import org.springframework.stereotype.Service;
 
 import java.io.File;
 import java.io.IOException;
-import java.io.InputStream;
 import java.nio.file.Files;
 import java.nio.file.Path;
-import java.util.Collection;
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
@@ -22,18 +18,18 @@ import java.util.stream.Collectors;
 public class ArchiveService {
 
     public void archive(Path path) {
-        Collection<File> filesToArchive = getAllFiles(path);
+        var filesToArchive = getAllFiles(path);
         var zippedFile = new File(path.toString() + ".zip");
-        try(ArchiveOutputStream o = new ZipArchiveOutputStream(zippedFile)) {
-            for (File f : filesToArchive) {
-                ArchiveEntry entry = o.createArchiveEntry(f, f.getName());
-                o.putArchiveEntry(entry);
-                if (f.isFile()) {
-                    try (InputStream i = Files.newInputStream(f.toPath())) {
-                        IOUtils.copy(i, o);
+        try(var zipOutputStream = new ZipArchiveOutputStream(zippedFile)) {
+            for (var fileToArchive : filesToArchive) {
+                var entry = zipOutputStream.createArchiveEntry(fileToArchive, fileToArchive.getName());
+                zipOutputStream.putArchiveEntry(entry);
+                if (fileToArchive.isFile()) {
+                    try (var inputStream = Files.newInputStream(fileToArchive.toPath())) {
+                        IOUtils.copy(inputStream, zipOutputStream);
                     }
                 }
-                o.closeArchiveEntry();
+                zipOutputStream.closeArchiveEntry();
             }
         }catch (IOException e) {
             log.error("Error while making zip file");

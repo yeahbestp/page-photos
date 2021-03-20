@@ -28,8 +28,9 @@ public class AppConfig {
     public ChromeOptions chromeOptions(){
         log.debug("loading chrome driver options");
         System.setProperty("webdriver.chrome.driver", chromeProperty);
-        ChromeOptions options = new ChromeOptions();
+        var options = new ChromeOptions();
         options.addArguments("start-maximized");
+        options.addArguments("disable-popup-blocking");
         return options;
     }
 
