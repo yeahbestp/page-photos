@@ -2,7 +2,6 @@ package com.best.pagephoto.controller;
 
 import com.best.pagephoto.model.PageModel;
 import com.best.pagephoto.service.ArchiveService;
-import com.best.pagephoto.service.Cleaner;
 import com.best.pagephoto.service.PhotoService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.core.io.ByteArrayResource;
@@ -29,6 +28,8 @@ import java.util.stream.Collectors;
 @Controller
 @RequestMapping(value = "/")
 public class PhotoPage {
+    private static final Pattern PATTERN = Pattern.compile(";");
+
     private final PhotoService photoService;
     private final ArchiveService archiveService;
 
@@ -72,7 +73,7 @@ public class PhotoPage {
 
     private List<String> getPages(String content) {
         Predicate<String> isEmpty = String::isEmpty;
-        return Pattern.compile("\n")
+        return PATTERN
                 .splitAsStream(content)
                 .map(String::trim)
                 .filter(isEmpty.negate())
